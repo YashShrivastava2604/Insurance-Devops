@@ -1,0 +1,66 @@
+# --------------------
+# Dependencies
+# --------------------
+node_modules/
+.pnp/
+.pnp.js
+
+# --------------------
+# Environment files
+# --------------------
+.env
+.env.*
+!.env.example
+
+# --------------------
+# Build outputs
+# --------------------
+dist/
+build/
+.out/
+coverage/
+
+# --------------------
+# Logs
+# --------------------
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# --------------------
+# OS junk
+# --------------------
+.DS_Store
+Thumbs.db
+
+# --------------------
+# Editor / IDE
+# --------------------
+.vscode/
+.idea/
+*.swp
+
+# --------------------
+# Vite
+# --------------------
+vite.config.js.timestamp-*
+
+# --------------------
+# Misc
+# --------------------
+*.pid
+*.seed
+*.tgz
+
+# --------------------
+# Docker (optional later)
+# --------------------
+.dockerignore
+
+# --------------------
+# Test cache
+# --------------------
+.nyc_output/
