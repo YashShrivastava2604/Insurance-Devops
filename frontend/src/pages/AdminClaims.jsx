@@ -56,6 +56,7 @@ export default function AdminClaims() {
                 <Button 
                     size="sm" 
                     variant="destructive"
+                    className="bg-red-600 hover:bg-red-700 text-white"
                     onClick={() => updateStatus(c._id, "rejected")}
                 >
                     <X className="w-4 h-4 mr-1" /> Reject

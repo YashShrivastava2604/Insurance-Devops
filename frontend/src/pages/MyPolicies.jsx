@@ -19,10 +19,10 @@ export default function MyPolicies() {
     if (!data?.reason || !data?.amount) return;
     
     try {
-        await axios.post("/claims", {
-            policy: policyId,
-            reason: data.reason,
+        await axios.post("/claims/", {
+            policyId: policyId,
             amount: Number(data.amount),
+            reason: data.reason,
         });
         alert("Claim submitted successfully!");
         setExpandedPolicy(null); // Close the form

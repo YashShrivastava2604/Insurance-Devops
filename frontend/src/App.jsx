@@ -5,7 +5,7 @@ import { useThemeStore } from "@/stores/themeStore";
 
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
-import VerifyOtp from "@/pages/VerifyOtp";
+import VerifyOtp from "@/pages/VerifyOTP";
 
 import ProtectedRoute from "@/components/ProtectedRoute";
 import AdminRoute from "@/components/AdminRoute";
