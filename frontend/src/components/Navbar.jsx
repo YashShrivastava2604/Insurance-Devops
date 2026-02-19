@@ -9,7 +9,7 @@ export default function Navbar() {
   const logout = useAuthStore(s => s.logout);
 
   return (
-    <nav className="sticky top-0 z-50 w-full glass">
+    <nav className="sticky top-0 z-50 w-full bg-white/10 backdrop-blur-md border-b border-white/20">
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
 
         {/* Brand */}
