@@ -1,0 +1,16 @@
+services:
+  backend-service:
+    image: yash4200/insurance-backend:v1
+    container_name: insurance-backend
+    ports:
+      - "5000:5000"
+    restart: always
+
+  frontend:
+    image: yash4200/insurance-frontend:v5
+    container_name: insurance-frontend
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend-service
+    restart: always
