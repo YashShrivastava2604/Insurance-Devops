@@ -1,15 +1,15 @@
 services:
   backend-service:
-    image: yash4200/insurance-backend:v1
+    image: yash4200/insurance-backend:${BACKEND_TAG}
     container_name: insurance-backend
-    env_files:
+    env_file:
       - .env
     ports:
       - "5000:5000"
     restart: always
 
   frontend:
-    image: yash4200/insurance-frontend:v5
+    image: yash4200/insurance-frontend:${FRONTEND_TAG}
     container_name: insurance-frontend
     ports:
       - "5173:80"
