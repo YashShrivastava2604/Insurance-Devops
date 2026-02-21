@@ -2,6 +2,8 @@ services:
   backend-service:
     image: yash4200/insurance-backend:v1
     container_name: insurance-backend
+    env_files:
+      - .env
     ports:
       - "5000:5000"
     restart: always
