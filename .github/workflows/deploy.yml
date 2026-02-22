@@ -42,29 +42,15 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: VERSION
           script: |
-            # 1. Load EVERY possible path into the environment
-            export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/snap/bin:/opt/bin:/home/${{ secrets.EC2_USERNAME }}/.local/bin
+            # Using the absolute path to bypass sudo's secure_path restrictions
+            KUBE_CMD="sudo /usr/local/bin/kubectl"
             
-            # 2. Dynamically discover the correct Kubernetes command
-            if command -v kubectl >/dev/null 2>&1; then
-                KUBE_CMD="kubectl"
-            elif command -v k3s >/dev/null 2>&1; then
-                KUBE_CMD="sudo k3s kubectl"
-            elif command -v microk8s >/dev/null 2>&1; then
-                KUBE_CMD="sudo microk8s kubectl"
-            else
-                echo "ERROR: No Kubernetes client found! Searched in: $PATH"
-                echo "Running emergency search to find the binary..."
-                sudo find / -name "kubectl" -type f -executable 2>/dev/null | head -n 3
-                exit 1
-            fi
+            echo "Applying updates using $KUBE_CMD..."
             
-            echo "Successfully found Kubernetes client. Using: $KUBE_CMD"
-            
-            # 3. Apply the rolling updates
+            # Apply the rolling updates
             $KUBE_CMD set image deployment/backend backend=yash4200/insurance-backend:$VERSION
             $KUBE_CMD set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
             
-            # 4. Wait for rollouts WITH TIMEOUTS to prevent infinite hanging
+            # Wait for rollouts WITH TIMEOUTS to prevent infinite hanging
             $KUBE_CMD rollout status deployment/backend --timeout=120s
             $KUBE_CMD rollout status deployment/frontend --timeout=120s
