@@ -5,52 +5,37 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Set Image Version
-        id: version
-        run: |
-          VERSION=v${{ github.run_number }}
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+      - name: Set version
+        run: echo "VERSION=v${{ github.run_number }}" >> $GITHUB_ENV
 
-      - name: Build and Push Backend Image
-        run: |
-          docker build -t yash4200/insurance-backend:${{ env.VERSION }} ./backend
-          docker push yash4200/insurance-backend:${{ env.VERSION }}
+      - name: Build backend image
+        run: docker build -t yash4200/insurance-backend:${{ env.VERSION }} ./backend
 
-      - name: Build and Push Frontend Image
-        run: |
-          docker build -t yash4200/insurance-frontend:${{ env.VERSION }} ./frontend
-          docker push yash4200/insurance-frontend:${{ env.VERSION }}
+      - name: Build frontend image
+        run: docker build -t yash4200/insurance-frontend:${{ env.VERSION }} ./frontend
 
-      - name: Deploy to Kubernetes on EC2
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          VERSION: v${{ github.run_number }}
+      - name: Push backend image
+        run: docker push yash4200/insurance-backend:${{ env.VERSION }}
+
+      - name: Push frontend image
+        run: docker push yash4200/insurance-frontend:${{ env.VERSION }}
+
+      - name: Deploy to Kubernetes via SSH
+        uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
+          username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
-          envs: VERSION
           script: |
-            # 1. Update Backend
-            sudo /usr/local/bin/k3s kubectl set image deployment/backend \
-              backend=yash4200/insurance-backend:$VERSION \
-              --kubeconfig /etc/rancher/k3s/k3s.yaml
-            
-            # 2. Update Frontend
-            sudo /usr/local/bin/k3s kubectl set image deployment/frontend \
-              frontend=yash4200/insurance-frontend:$VERSION \
-              --kubeconfig /etc/rancher/k3s/k3s.yaml
-            
-            # 3. Check Status
-            sudo /usr/local/bin/k3s kubectl rollout status deployment/backend --timeout=120s --kubeconfig /etc/rancher/k3s/k3s.yaml
-            sudo /usr/local/bin/k3s kubectl rollout status deployment/frontend --timeout=120s --kubeconfig /etc/rancher/k3s/k3s.yaml
+            KUBECTL=$(readlink -f $(which kubectl))
+            $KUBECTL set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
+            $KUBECTL set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
