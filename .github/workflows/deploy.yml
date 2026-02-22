@@ -5,40 +5,47 @@ on:
     branches: [ main ]
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      - name: Set version
-        run: echo "VERSION=v${{ github.run_number }}" >> $GITHUB_ENV
+      - name: Set Image Version
+        id: version
+        run: |
+          VERSION=v${{ github.run_number }}
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          echo "Using version tag: $VERSION"
 
-      - name: Build backend image
-        run: docker build -t yash4200/insurance-backend:${{ env.VERSION }} ./backend
+      - name: Build and Push Backend Image
+        run: |
+          docker build -t yash4200/insurance-backend:${{ env.VERSION }} ./backend
+          docker push yash4200/insurance-backend:${{ env.VERSION }}
 
-      - name: Build frontend image
-        run: docker build -t yash4200/insurance-frontend:${{ env.VERSION }} ./frontend
+      - name: Build and Push Frontend Image
+        run: |
+          docker build -t yash4200/insurance-frontend:${{ env.VERSION }} ./frontend
+          docker push yash4200/insurance-frontend:${{ env.VERSION }}
 
-      - name: Push backend image
-        run: docker push yash4200/insurance-backend:${{ env.VERSION }}
-
-      - name: Push frontend image
-        run: docker push yash4200/insurance-frontend:${{ env.VERSION }}
-
-      - name: Deploy to Kubernetes via SSH
-        uses: appleboy/ssh-action@v1.0.0
+      - name: Deploy to Kubernetes on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          VERSION: v${{ github.run_number }}
         with:
           host: ${{ secrets.EC2_HOST }}
-          username: ubuntu
+          username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: VERSION
           script: |
-            export PATH=$PATH:/usr/local/bin
-            cd ~/Project/Insurance-Devops
-            kubectl set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
-            kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
+            
+            kubectl set image deployment/backend backend=yash4200/insurance-backend:$VERSION
+            kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
+            
+            
             kubectl rollout status deployment/backend
             kubectl rollout status deployment/frontend
