@@ -42,15 +42,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: VERSION
           script: |
-            # Using the absolute path to bypass sudo's secure_path restrictions
-            KUBE_CMD="sudo /usr/local/bin/kubectl"
+            echo "Deploying version $VERSION..."
             
-            echo "Applying updates using $KUBE_CMD..."
+            # Using 'sudo -i' forces a full root login environment, 
+            # permanently solving all "command not found" path issues.
+            sudo -i bash -c "k3s kubectl set image deployment/backend backend=yash4200/insurance-backend:$VERSION"
+            sudo -i bash -c "k3s kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION"
             
-            # Apply the rolling updates
-            $KUBE_CMD set image deployment/backend backend=yash4200/insurance-backend:$VERSION
-            $KUBE_CMD set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
-            
-            # Wait for rollouts WITH TIMEOUTS to prevent infinite hanging
-            $KUBE_CMD rollout status deployment/backend --timeout=120s
-            $KUBE_CMD rollout status deployment/frontend --timeout=120s
+            # Wait for rollouts WITH TIMEOUTS
+            sudo -i bash -c "k3s kubectl rollout status deployment/backend --timeout=120s"
+            sudo -i bash -c "k3s kubectl rollout status deployment/frontend --timeout=120s"
