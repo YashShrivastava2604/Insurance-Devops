@@ -40,7 +40,7 @@ export default function Home() {
           className="text-xl text-[rgb(var(--muted-foreground))] max-w-2xl mx-auto"
         >
           Compare plans, calculate premiums, and manage claims. 
-          Paperless, Instant, Convenient and designed for you.
+          Paperless, Instant, and Designed for you.
         </motion.p>
       </div>
 
