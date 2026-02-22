@@ -20,7 +20,6 @@ jobs:
         run: |
           VERSION=v${{ github.run_number }}
           echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "Using version tag: $VERSION"
 
       - name: Build and Push Backend Image
         run: |
@@ -42,13 +41,16 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: VERSION
           script: |
-            echo "Deploying version $VERSION..."
+            # 1. Update Backend
+            sudo /usr/local/bin/k3s kubectl set image deployment/backend \
+              backend=yash4200/insurance-backend:$VERSION \
+              --kubeconfig /etc/rancher/k3s/k3s.yaml
             
-            # Using 'sudo -i' forces a full root login environment, 
-            # permanently solving all "command not found" path issues.
-            sudo -i bash -c "k3s kubectl set image deployment/backend backend=yash4200/insurance-backend:$VERSION"
-            sudo -i bash -c "k3s kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION"
+            # 2. Update Frontend
+            sudo /usr/local/bin/k3s kubectl set image deployment/frontend \
+              frontend=yash4200/insurance-frontend:$VERSION \
+              --kubeconfig /etc/rancher/k3s/k3s.yaml
             
-            # Wait for rollouts WITH TIMEOUTS
-            sudo -i bash -c "k3s kubectl rollout status deployment/backend --timeout=120s"
-            sudo -i bash -c "k3s kubectl rollout status deployment/frontend --timeout=120s"
+            # 3. Check Status
+            sudo /usr/local/bin/k3s kubectl rollout status deployment/backend --timeout=120s --kubeconfig /etc/rancher/k3s/k3s.yaml
+            sudo /usr/local/bin/k3s kubectl rollout status deployment/frontend --timeout=120s --kubeconfig /etc/rancher/k3s/k3s.yaml
