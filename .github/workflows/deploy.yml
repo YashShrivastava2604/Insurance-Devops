@@ -37,5 +37,5 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             export KUBECONFIG=~/.kube/config
-            /usr/local/bin/kubectl set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
-            /usr/local/bin/kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
+            sudo /usr/local/bin/kubectl set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
+            sudo /usr/local/bin/kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
