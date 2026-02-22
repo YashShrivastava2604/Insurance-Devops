@@ -32,7 +32,7 @@ jobs:
           docker build -t yash4200/insurance-frontend:${{ env.VERSION }} ./frontend
           docker push yash4200/insurance-frontend:${{ env.VERSION }}
 
-      - name: Deploy to K3s on EC2
+      - name: Deploy to Kubernetes on EC2
         uses: appleboy/ssh-action@v1.0.3
         env:
           VERSION: v${{ github.run_number }}
@@ -42,13 +42,29 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: VERSION
           script: |
-            # Use absolute paths to bypass sudo secure_path restrictions
-            K3S_CMD="sudo /usr/local/bin/k3s kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml"
+            # 1. Load EVERY possible path into the environment
+            export PATH=$PATH:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/snap/bin:/opt/bin:/home/${{ secrets.EC2_USERNAME }}/.local/bin
             
-            # Update the deployments
-            $K3S_CMD set image deployment/backend backend=yash4200/insurance-backend:$VERSION
-            $K3S_CMD set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
+            # 2. Dynamically discover the correct Kubernetes command
+            if command -v kubectl >/dev/null 2>&1; then
+                KUBE_CMD="kubectl"
+            elif command -v k3s >/dev/null 2>&1; then
+                KUBE_CMD="sudo k3s kubectl"
+            elif command -v microk8s >/dev/null 2>&1; then
+                KUBE_CMD="sudo microk8s kubectl"
+            else
+                echo "ERROR: No Kubernetes client found! Searched in: $PATH"
+                echo "Running emergency search to find the binary..."
+                sudo find / -name "kubectl" -type f -executable 2>/dev/null | head -n 3
+                exit 1
+            fi
             
-            # Wait for the rolling updates to finish
-            $K3S_CMD rollout status deployment/backend
-            $K3S_CMD rollout status deployment/frontend
+            echo "Successfully found Kubernetes client. Using: $KUBE_CMD"
+            
+            # 3. Apply the rolling updates
+            $KUBE_CMD set image deployment/backend backend=yash4200/insurance-backend:$VERSION
+            $KUBE_CMD set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
+            
+            # 4. Wait for rollouts WITH TIMEOUTS to prevent infinite hanging
+            $KUBE_CMD rollout status deployment/backend --timeout=120s
+            $KUBE_CMD rollout status deployment/frontend --timeout=120s
