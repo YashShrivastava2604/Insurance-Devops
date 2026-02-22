@@ -1,4 +1,4 @@
-name: CI/CD Docker Compose EC2
+name: CI/CD to Kubernetes
 
 on:
   push:
@@ -17,27 +17,25 @@ jobs:
       - name: Set version
         run: echo "VERSION=v${{ github.run_number }}" >> $GITHUB_ENV
 
-      - name: Build backend
+      - name: Build backend image
         run: docker build -t yash4200/insurance-backend:${{ env.VERSION }} ./backend
 
-      - name: Build frontend
+      - name: Build frontend image
         run: docker build -t yash4200/insurance-frontend:${{ env.VERSION }} ./frontend
 
-      - name: Push backend
+      - name: Push backend image
         run: docker push yash4200/insurance-backend:${{ env.VERSION }}
 
-      - name: Push frontend
+      - name: Push frontend image
         run: docker push yash4200/insurance-frontend:${{ env.VERSION }}
 
-      - name: Deploy on EC2
+      - name: Deploy to Kubernetes via SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/Project/Insurance-Devops
-            export BACKEND_TAG=${{ env.VERSION }}
-            export FRONTEND_TAG=${{ env.VERSION }}
-            docker compose pull
-            docker compose up -d
+            export KUBECONFIG=~/.kube/config
+            kubectl set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
+            kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
