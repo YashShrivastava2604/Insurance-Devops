@@ -32,7 +32,7 @@ jobs:
           docker build -t yash4200/insurance-frontend:${{ env.VERSION }} ./frontend
           docker push yash4200/insurance-frontend:${{ env.VERSION }}
 
-      - name: Deploy to Kubernetes on EC2
+      - name: Deploy to K3s on EC2
         uses: appleboy/ssh-action@v1.0.3
         env:
           VERSION: v${{ github.run_number }}
@@ -42,10 +42,11 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: VERSION
           script: |
-            
-            kubectl set image deployment/backend backend=yash4200/insurance-backend:$VERSION
-            kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
-            
-            
-            kubectl rollout status deployment/backend
-            kubectl rollout status deployment/frontend
+            # Ensure the path includes typical binary locations
+            export PATH=$PATH:/usr/local/bin
+            #Update the deployments using the specific k3s binary and sudo
+            sudo k3s kubectl set image deployment/backend backend=yash4200/insurance-backend:$VERSION
+            sudo k3s kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
+            # Wait for the rolling updates to finish to ensure they don't crash
+            sudo k3s kubectl rollout status deployment/backend
+            sudo k3s kubectl rollout status deployment/frontend
