@@ -36,6 +36,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            source ~/.bashrc
-            kubectl set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
-            kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
+            KUBECTL=$(readlink -f $(which kubectl))
+            $KUBECTL set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
+            $KUBECTL set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
