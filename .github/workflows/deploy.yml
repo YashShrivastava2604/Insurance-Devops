@@ -36,6 +36,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            export PATH=$PATH:/usr/local/bin
             cd ~/Project/Insurance-Devops
             kubectl set image deployment/backend backend=yash4200/insurance-backend:${{ env.VERSION }}
             kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:${{ env.VERSION }}
