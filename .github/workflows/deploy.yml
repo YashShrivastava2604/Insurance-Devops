@@ -42,11 +42,13 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: VERSION
           script: |
-            # Ensure the path includes typical binary locations
-            export PATH=$PATH:/usr/local/bin
-            #Update the deployments using the specific k3s binary and sudo
-            sudo k3s kubectl set image deployment/backend backend=yash4200/insurance-backend:$VERSION
-            sudo k3s kubectl set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
-            # Wait for the rolling updates to finish to ensure they don't crash
-            sudo k3s kubectl rollout status deployment/backend
-            sudo k3s kubectl rollout status deployment/frontend
+            # Use absolute paths to bypass sudo secure_path restrictions
+            K3S_CMD="sudo /usr/local/bin/k3s kubectl --kubeconfig /etc/rancher/k3s/k3s.yaml"
+            
+            # Update the deployments
+            $K3S_CMD set image deployment/backend backend=yash4200/insurance-backend:$VERSION
+            $K3S_CMD set image deployment/frontend frontend=yash4200/insurance-frontend:$VERSION
+            
+            # Wait for the rolling updates to finish
+            $K3S_CMD rollout status deployment/backend
+            $K3S_CMD rollout status deployment/frontend
