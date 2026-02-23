@@ -41,7 +41,7 @@ export default function Home() {
         >
           Compare plans, calculate premiums, and manage claims.
 	  <br />
-          Paperless, Instant, and Designed for You
+          Paperless, Instant, and Designed for YOU
         </motion.p>
       </div>
 
