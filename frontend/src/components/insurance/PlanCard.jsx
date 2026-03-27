@@ -70,7 +70,7 @@ export default function PlanCard({ plan, onSelect, index = 0 }) {
             </div>
 
             {/* Key Benefit */}
-             <div className="flex items-start gap-3 text-sm">
+             {/* <div className="flex items-start gap-3 text-sm">
                 <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center shrink-0 mt-0.5">
                     <Check className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                 </div>
@@ -78,7 +78,7 @@ export default function PlanCard({ plan, onSelect, index = 0 }) {
                     <p className="text-[rgb(var(--muted-foreground))] text-xs">Key Benefit</p>
                     <p className="font-medium text-[rgb(var(--text))] leading-tight">{plan.benefits}</p>
                 </div>
-            </div>
+            </div> */}
         </div>
       </div>
 

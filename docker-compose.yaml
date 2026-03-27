@@ -1,18 +1,22 @@
+version: "3.9"
+
 services:
   backend-service:
-    image: yash4200/insurance-backend:${BACKEND_TAG}
+    image: yash4200/insurance-backend:latest
     container_name: insurance-backend
     env_file:
       - .env
     ports:
       - "5000:5000"
     restart: always
+    pull_policy: always
 
   frontend:
-    image: yash4200/insurance-frontend:${FRONTEND_TAG}
+    image: yash4200/insurance-frontend:latest
     container_name: insurance-frontend
     ports:
       - "5173:80"
     depends_on:
       - backend-service
     restart: always
+    pull_policy: always

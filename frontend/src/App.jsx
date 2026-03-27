@@ -2,6 +2,7 @@ import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { useThemeStore } from "@/stores/themeStore";
+import AiPage from "./pages/AiPage";
 
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
@@ -76,6 +77,15 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Home />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/ai"
+          element={
+            <ProtectedRoute>
+              <AiPage />
             </ProtectedRoute>
           }
         />

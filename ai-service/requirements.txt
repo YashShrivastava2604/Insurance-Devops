@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+crewai
+google-genai
+python-dotenv
+requests
+pillow
+sentence-transformers
+faiss-cpu
+numpy

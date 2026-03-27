@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/authStore";
-import { ShieldCheck, LayoutDashboard, FileText, CheckCircle } from "lucide-react";
+import { ShieldCheck, LayoutDashboard, FileText, CheckCircle, Sparkles } from "lucide-react";
 
 export default function Navbar() {
   const user = useAuthStore(s => s.user);
@@ -26,16 +26,24 @@ export default function Navbar() {
         {user ? (
           <div className="flex items-center gap-6">
             <div className="hidden md:flex items-center gap-6 text-sm font-medium text-[rgb(var(--muted-foreground))]">
+
               <Link to="/" className="hover:text-blue-500 flex items-center gap-2 transition-colors">
                 <LayoutDashboard className="w-4 h-4" /> Plans
               </Link>
+
               <Link to="/policies" className="hover:text-blue-500 flex items-center gap-2 transition-colors">
                 <FileText className="w-4 h-4" /> My Policies
               </Link>
+
               <Link to="/claims" className="hover:text-blue-500 flex items-center gap-2 transition-colors">
                 <CheckCircle className="w-4 h-4" /> Claims
               </Link>
-              
+
+              {/* 🔥 AI Link */}
+              <Link to="/ai" className="hover:text-blue-500 flex items-center gap-2 transition-colors">
+                <Sparkles className="w-4 h-4" /> AI Assistant
+              </Link>
+
               {user.role === "admin" && (
                 <Link to="/admin" className="text-amber-600 dark:text-amber-400 font-semibold hover:opacity-80">
                   Admin Panel
@@ -47,7 +55,12 @@ export default function Navbar() {
 
             <ThemeToggle />
             
-            <Button variant="ghost" size="sm" onClick={logout} className="text-red-500 hover:text-red-600 hover:bg-red-500/10">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={logout}
+              className="text-red-500 hover:text-red-600 hover:bg-red-500/10"
+            >
               Logout
             </Button>
           </div>
