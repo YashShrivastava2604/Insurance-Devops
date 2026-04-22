@@ -2,7 +2,6 @@ import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { useThemeStore } from "@/stores/themeStore";
-import AiPage from "./pages/AiPage";
 
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
@@ -23,6 +22,8 @@ import Home from "./pages/Home";
 import MyClaims from "./pages/MyClaims";
 import MyPolicies from "./pages/MyPolicies";
 import AdminCreatePlan from "./pages/AdminCreatePlan";
+
+import ChatWidget from "@/components/chat/ChatWidget";
 
 /* ---------- Layout ---------- */
 function AppLayout() {
@@ -63,6 +64,7 @@ export default function App() {
   }
 
   return (
+  <>
     <Routes>
       {/* Public */}
       <Route path="/login" element={<Login />} />
@@ -77,15 +79,6 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/ai"
-          element={
-            <ProtectedRoute>
-              <AiPage />
             </ProtectedRoute>
           }
         />
@@ -173,5 +166,8 @@ export default function App() {
         />
       </Route>
     </Routes>
-  );
+
+    <ChatWidget />
+  </>
+);
 }

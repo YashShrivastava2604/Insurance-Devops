@@ -7,6 +7,7 @@ import authRoutes from './routes/auth.routes.js'
 import planRoutes from './routes/plan.routes.js'
 import policyRoutes from './routes/policy.routes.js'
 import claimRoutes from './routes/claim.routes.js'
+import testRoutes from './routes/test.routes.js'
 import cors from 'cors'
 
 const app = express()
@@ -29,6 +30,7 @@ app.use('/api/auth', authRoutes)
 app.use('/api/plans', planRoutes)
 app.use('/api/policies', policyRoutes)
 app.use('/api/claims', claimRoutes)
+app.use('/api/testroutes', testRoutes)
 
 app.get('/', (req, res) => {
     res.json("Welcome. Server is running. ")

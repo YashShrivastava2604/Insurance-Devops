@@ -1,16 +1,111 @@
-Health insurance covers medical expenses such as hospitalization,
-doctor visits, medicines, and preventive care.
+Health insurance is a policy that covers medical expenses such as hospitalization, surgery, and treatment costs.
 
-Premium is the amount a customer pays regularly to keep an
-insurance policy active.
+A premium is the amount paid periodically to maintain an insurance policy.
 
-Deductible is the amount a policyholder must pay before the
-insurance company starts covering costs.
+Coverage refers to the total amount the insurance company will pay for claims.
 
-Higher deductibles usually result in lower premiums.
+A deductible is the amount the policyholder must pay before the insurance starts covering expenses.
 
-Young drivers under 25 often have higher car insurance premiums
-because of higher accident risk.
+A sum insured is the maximum coverage amount available under an insurance policy.
 
-Life insurance provides financial protection to family members
-after the policyholder’s death.
+Cashless hospitalization allows patients to receive treatment without paying upfront at network hospitals.
+
+A network hospital is a hospital that has a tie-up with an insurance provider for cashless services.
+
+A waiting period is the time during which certain conditions are not covered after purchasing a policy.
+
+Pre-existing diseases are medical conditions that existed before purchasing the insurance policy.
+
+Most health insurance policies cover pre-existing diseases after a waiting period of 2 to 4 years.
+
+A claim is a request made to the insurance company to cover medical expenses.
+
+Claim settlement ratio indicates the percentage of claims settled by an insurance company.
+
+A higher claim settlement ratio generally indicates better reliability of the insurer.
+
+A no-claim bonus is a reward given for not making any claims during a policy year.
+
+Family floater insurance covers multiple family members under a single sum insured.
+
+Individual health insurance covers only one person under the policy.
+
+Family floater plans are cost-effective for families, while individual plans offer dedicated coverage per person.
+
+Term insurance provides life coverage for a specific period and pays benefits only on death.
+
+Life insurance provides financial support to beneficiaries in case of the policyholder's death.
+
+Motor insurance covers damages to vehicles due to accidents, theft, or natural disasters.
+
+Third-party insurance covers damages caused to other people or property.
+
+Comprehensive motor insurance covers both third-party and own vehicle damages.
+
+Travel insurance covers risks associated with traveling such as medical emergencies, trip cancellations, and lost baggage.
+
+Critical illness insurance provides a lump sum payout for specified serious illnesses like cancer or heart attack.
+
+Health insurance usually covers hospitalization, medicines, doctor consultations, and diagnostic tests.
+
+Outpatient department (OPD) coverage includes medical expenses that do not require hospitalization.
+
+Most policies do not cover cosmetic procedures unless medically necessary.
+
+Insurance policies may exclude certain treatments or conditions known as exclusions.
+
+Common exclusions include cosmetic surgery, self-inflicted injuries, and experimental treatments.
+
+A grace period is the extra time allowed after the premium due date to make payment.
+
+Policy renewal ensures continued coverage without losing benefits like waiting period credits.
+
+Portability allows switching insurance providers without losing accumulated benefits.
+
+A rider is an additional benefit that can be added to a base insurance policy.
+
+Accidental death benefit rider provides extra payout in case of accidental death.
+
+Hospital daily cash provides a fixed daily allowance during hospitalization.
+
+Claim rejection can occur due to non-disclosure of information or policy exclusions.
+
+Non-disclosure of medical history can lead to claim rejection.
+
+Insurance fraud includes providing false information to obtain benefits.
+
+A policy document contains all terms, conditions, inclusions, and exclusions.
+
+Insurance helps reduce financial burden during medical emergencies.
+
+Choosing insurance depends on age, health condition, and financial capability.
+
+Higher premium plans usually provide higher coverage and additional benefits.
+
+Young individuals typically benefit from lower premiums and early policy purchase.
+
+Older individuals may face higher premiums due to increased health risks.
+
+Family size influences the choice between individual and family floater plans.
+
+Network hospital availability is important for smooth claim processing.
+
+Policies with wider hospital networks offer better accessibility.
+
+Health insurance does not usually cover pre-existing diseases immediately.
+
+Claim process involves notifying insurer, submitting documents, and approval.
+
+Cashless claims are processed directly between hospital and insurer.
+
+Reimbursement claims require the user to pay first and get reimbursed later.
+
+Medical inflation increases healthcare costs over time, making insurance essential.
+
+Insurance acts as a financial safety net during unforeseen events.
+
+Choosing the right policy requires comparing coverage, premium, and benefits.
+
+Short waiting periods and high claim settlement ratios are desirable features.
+
+Policies with low exclusions and flexible terms are generally better.

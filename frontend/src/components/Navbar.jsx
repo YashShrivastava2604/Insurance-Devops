@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/authStore";
-import { ShieldCheck, LayoutDashboard, FileText, CheckCircle, Sparkles } from "lucide-react";
+import { ShieldCheck, LayoutDashboard, FileText, CheckCircle } from "lucide-react";
 
 export default function Navbar() {
   const user = useAuthStore(s => s.user);
@@ -39,11 +39,7 @@ export default function Navbar() {
                 <CheckCircle className="w-4 h-4" /> Claims
               </Link>
 
-              {/* 🔥 AI Link */}
-              <Link to="/ai" className="hover:text-blue-500 flex items-center gap-2 transition-colors">
-                <Sparkles className="w-4 h-4" /> AI Assistant
-              </Link>
-
+              
               {user.role === "admin" && (
                 <Link to="/admin" className="text-amber-600 dark:text-amber-400 font-semibold hover:opacity-80">
                   Admin Panel

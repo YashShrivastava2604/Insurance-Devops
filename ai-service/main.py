@@ -1,12 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-from agents.crew_agents import run_agents
-from multimodal.image_generator import generate_image
 from fastapi.middleware.cors import CORSMiddleware
+import uuid
+from core.state import get_session, add_message
+from core.router import handle_query
+from core.state import get_session
+
 
 app = FastAPI()
 
-# 🔥 CORS (required for React)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -18,24 +20,30 @@ app.add_middleware(
 
 class RequestBody(BaseModel):
     query: str
+    session_id: str = None
 
 
 @app.get("/")
 def health():
     return {"status": "AI service running"}
 
+@app.post("/chat")
+async def chat(req: RequestBody):
+    session_id = req.session_id or str(uuid.uuid4())
+    session = get_session(session_id)
 
-@app.post("/generate")
-def generate(req: RequestBody):
-    query = req.query
+    # ✅ store user message
+    add_message(session, "user", req.query)
 
-    # Step 1: text (CrewAI + RAG)
-    result = run_agents(query)
+    response = await handle_query(req.query, session)
 
-    # Step 2: image
-    image_base64 = generate_image(query)
+    # ✅ store AI response text only
+    if isinstance(response, dict):
+        text = response.get("content", {}).get("text")
+        if text:
+            add_message(session, "assistant", text)
 
     return {
-        "text": str(result),
-        "image": image_base64
+        "session_id": session_id,
+        "response": response
     }
