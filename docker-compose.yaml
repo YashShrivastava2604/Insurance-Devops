@@ -1,7 +1,7 @@
 version: "3.9"
 
 services:
-  backend-service:
+  backend:
     image: yash4200/insurance-backend:latest
     container_name: insurance-backend
     env_file:
@@ -11,12 +11,27 @@ services:
     restart: always
     pull_policy: always
 
+  ai-service:
+    image: yash4200/insurance-ai-service:latest
+    container_name: insurance-ai-service
+    env_file:
+      - .env
+    environment:
+      - BACKEND_URL=http://backend:5000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - backend
+    restart: always
+    pull_policy: always
+
   frontend:
     image: yash4200/insurance-frontend:latest
     container_name: insurance-frontend
     ports:
-      - "5173:80"
+      - "3000:80"
     depends_on:
-      - backend-service
+      - backend
+      - ai-service
     restart: always
     pull_policy: always

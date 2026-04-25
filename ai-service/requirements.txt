@@ -1,10 +1,10 @@
 fastapi
 uvicorn
 crewai
-google-genai
+groq
 python-dotenv
 requests
 pillow
 faiss-cpu
-sentence-transformers
+fastembed
 httpx

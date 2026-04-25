@@ -1,4 +1,4 @@
-===== FILE: frontend/index.html =====
+==================== frontend/./index.html ====================
 <!doctype html>
 <html lang="en">
   <head>
@@ -14,7 +14,8 @@
 </html>
 
 
-===== FILE: frontend/jsconfig.json =====
+
+==================== frontend/./jsconfig.json ====================
 {
   "compilerOptions": {
     "baseUrl": ".",
@@ -25,7 +26,8 @@
 }
 
 
-===== FILE: frontend/.dockerignore =====
+
+==================== frontend/./.dockerignore ====================
 node_modules
 npm-debug.log
 .git
@@ -38,7 +40,8 @@ build
 coverage
 
 
-===== FILE: frontend/src/pages/AdminPlans.jsx =====
+
+==================== frontend/./src/pages/AdminPlans.jsx ====================
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import { Button } from "@/components/ui/button";
@@ -73,7 +76,8 @@ export default function AdminPlans() {
 }
 
 
-===== FILE: frontend/src/pages/AdminCreatePlan.jsx =====
+
+==================== frontend/./src/pages/AdminCreatePlan.jsx ====================
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "@/lib/axios";
@@ -349,7 +353,8 @@ export default function AdminCreatePlan() {
   );
 }
 
-===== FILE: frontend/src/pages/Signup.jsx =====
+
+==================== frontend/./src/pages/Signup.jsx ====================
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -419,7 +424,8 @@ export default function Signup() {
   );
 }
 
-===== FILE: frontend/src/pages/AdminDashboard.jsx =====
+
+==================== frontend/./src/pages/AdminDashboard.jsx ====================
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "@/lib/axios";
@@ -564,7 +570,8 @@ export default function AdminDashboard() {
   );
 }
 
-===== FILE: frontend/src/pages/AdminClaims.jsx =====
+
+==================== frontend/./src/pages/AdminClaims.jsx ====================
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import { Button } from "@/components/ui/button";
@@ -637,7 +644,8 @@ export default function AdminClaims() {
   );
 }
 
-===== FILE: frontend/src/pages/Plans.jsx =====
+
+==================== frontend/./src/pages/Plans.jsx ====================
 import { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "@/lib/axios";
@@ -790,7 +798,8 @@ export default function Plans() {
   );
 }
 
-===== FILE: frontend/src/pages/MyClaims.jsx =====
+
+==================== frontend/./src/pages/MyClaims.jsx ====================
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import { Link } from "react-router-dom";
@@ -963,7 +972,8 @@ export default function MyClaims() {
   );
 }
 
-===== FILE: frontend/src/pages/MyPolicies.jsx =====
+
+==================== frontend/./src/pages/MyPolicies.jsx ====================
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import { Button } from "@/components/ui/button";
@@ -1098,7 +1108,8 @@ export default function MyPolicies() {
   );
 }
 
-===== FILE: frontend/src/pages/Profile.jsx =====
+
+==================== frontend/./src/pages/Profile.jsx ====================
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import { useAuthStore } from "@/stores/authStore";
@@ -1218,7 +1229,8 @@ export default function Profile() {
   );
 }
 
-===== FILE: frontend/src/pages/Login.jsx =====
+
+==================== frontend/./src/pages/Login.jsx ====================
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -1317,7 +1329,8 @@ export default function Login() {
   );
 }
 
-===== FILE: frontend/src/pages/VerifyOTP.jsx =====
+
+==================== frontend/./src/pages/VerifyOTP.jsx ====================
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
@@ -1365,99 +1378,8 @@ export default function VerifyOtp() {
 }
 
 
-===== FILE: frontend/src/pages/AiPage.jsx =====
-import { useState } from "react";
 
-export default function AiPage() {
-  const [query, setQuery] = useState("");
-  const [text, setText] = useState("");
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleSubmit = async () => {
-    if (!query) return;
-
-    setLoading(true);
-    setText("");
-    setImage(null);
-
-    try {
-      const res = await fetch("http://localhost:8080/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query }),
-      });
-
-      const data = await res.json();
-
-      if (data.image) {
-        setImage(`data:image/png;base64,${data.image}`);
-      }
-
-      setText(data.text);
-
-    } catch (err) {
-      setText("Something went wrong");
-    }
-
-    setLoading(false);
-  };
-
-  return (
-    <div className="max-w-4xl mx-auto px-6 py-10">
-
-      <h1 className="text-3xl font-bold mb-6 flex items-center gap-2">
-        🤖 AI Insurance Assistant
-      </h1>
-
-      <div className="flex gap-2 mb-6">
-        <input
-          className="flex-1 p-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent"
-          placeholder="Ask anything about insurance..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <button
-          onClick={handleSubmit}
-          className="px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-        >
-          Ask
-        </button>
-      </div>
-
-      {loading && (
-        <div className="animate-pulse text-gray-500">
-          Generating response...
-        </div>
-      )}
-
-      {/* IMAGE FIRST */}
-      {image && (
-        <div className="mb-6">
-          <img
-            src={image}
-            alt="AI Visual"
-            className="w-full rounded-xl shadow-lg border border-white/10"
-          />
-        </div>
-      )}
-
-      {/* TEXT */}
-      {text && (
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-xl shadow-lg">
-          <h2 className="text-xl font-semibold mb-3">Explanation</h2>
-          <p className="whitespace-pre-line leading-relaxed">
-            {text}
-          </p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-===== FILE: frontend/src/pages/Dashboard.jsx =====
+==================== frontend/./src/pages/Dashboard.jsx ====================
 import { useNavigate } from "react-router-dom";
 import InsuranceCard from "@/components/insurance/InsuranceCard";
 import Navbar from "@/components/Navbar";
@@ -1499,7 +1421,8 @@ export default function Dashboard() {
 }
 
 
-===== FILE: frontend/src/pages/AdminPolicies.jsx =====
+
+==================== frontend/./src/pages/AdminPolicies.jsx ====================
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
 import Navbar from "@/components/Navbar";
@@ -1528,7 +1451,8 @@ export default function AdminPolicies() {
 }
 
 
-===== FILE: frontend/src/pages/Home.jsx =====
+
+==================== frontend/./src/pages/Home.jsx ====================
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Heart, Car, Bike, Plane, Users, Shield, ArrowRight } from "lucide-react";
@@ -1619,7 +1543,8 @@ export default function Home() {
 }
 
 
-===== FILE: frontend/src/pages/BuyPolicy.jsx =====
+
+==================== frontend/./src/pages/BuyPolicy.jsx ====================
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "@/lib/axios";
@@ -1752,7 +1677,8 @@ export default function BuyPolicy() {
   );
 }
 
-===== FILE: frontend/src/main.jsx =====
+
+==================== frontend/./src/main.jsx ====================
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -1766,7 +1692,8 @@ createRoot(document.getElementById('root')).render(
 )
 
 
-===== FILE: frontend/src/stores/themeStore.js =====
+
+==================== frontend/./src/stores/themeStore.js ====================
 import { create } from "zustand";
 
 export const useThemeStore = create((set) => ({
@@ -1778,7 +1705,8 @@ export const useThemeStore = create((set) => ({
 }));
 
 
-===== FILE: frontend/src/stores/authStore.js =====
+
+==================== frontend/./src/stores/authStore.js ====================
 import { create } from "zustand";
 import axios from "@/lib/axios";
 
@@ -1846,12 +1774,12 @@ export const useAuthStore = create((set) => ({
 }));
 
 
-===== FILE: frontend/src/App.jsx =====
+
+==================== frontend/./src/App.jsx ====================
 import { Routes, Route, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthStore } from "@/stores/authStore";
 import { useThemeStore } from "@/stores/themeStore";
-import AiPage from "./pages/AiPage";
 
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
@@ -1872,6 +1800,8 @@ import Home from "./pages/Home";
 import MyClaims from "./pages/MyClaims";
 import MyPolicies from "./pages/MyPolicies";
 import AdminCreatePlan from "./pages/AdminCreatePlan";
+
+import ChatWidget from "@/components/chat/ChatWidget";
 
 /* ---------- Layout ---------- */
 function AppLayout() {
@@ -1912,6 +1842,7 @@ export default function App() {
   }
 
   return (
+  <>
     <Routes>
       {/* Public */}
       <Route path="/login" element={<Login />} />
@@ -1926,15 +1857,6 @@ export default function App() {
           element={
             <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="/ai"
-          element={
-            <ProtectedRoute>
-              <AiPage />
             </ProtectedRoute>
           }
         />
@@ -2022,11 +1944,15 @@ export default function App() {
         />
       </Route>
     </Routes>
-  );
+
+    <ChatWidget />
+  </>
+);
 }
 
 
-===== FILE: frontend/src/index.css =====
+
+==================== frontend/./src/index.css ====================
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -2104,7 +2030,8 @@ body {
   color: transparent;
 }
 
-===== FILE: frontend/src/components/insurance/InsuranceCard.jsx =====
+
+==================== frontend/./src/components/insurance/InsuranceCard.jsx ====================
 import { motion } from "framer-motion";
 
 export default function InsuranceCard({ title, onClick }) {
@@ -2121,7 +2048,8 @@ export default function InsuranceCard({ title, onClick }) {
 }
 
 
-===== FILE: frontend/src/components/insurance/DynamicForm.jsx =====
+
+==================== frontend/./src/components/insurance/DynamicForm.jsx ====================
 import { Input } from "@/components/ui/input";
 
 export default function DynamicForm({ fields, values, onChange }) {
@@ -2149,7 +2077,8 @@ export default function DynamicForm({ fields, values, onChange }) {
   );
 }
 
-===== FILE: frontend/src/components/insurance/PlanCard.jsx =====
+
+==================== frontend/./src/components/insurance/PlanCard.jsx ====================
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Check, Shield, IndianRupee, Clock, Zap } from "lucide-react";
@@ -2245,12 +2174,13 @@ export default function PlanCard({ plan, onSelect, index = 0 }) {
   );
 }
 
-===== FILE: frontend/src/components/Navbar.jsx =====
+
+==================== frontend/./src/components/Navbar.jsx ====================
 import { Link } from "react-router-dom";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { useAuthStore } from "@/stores/authStore";
-import { ShieldCheck, LayoutDashboard, FileText, CheckCircle, Sparkles } from "lucide-react";
+import { ShieldCheck, LayoutDashboard, FileText, CheckCircle } from "lucide-react";
 
 export default function Navbar() {
   const user = useAuthStore(s => s.user);
@@ -2287,11 +2217,7 @@ export default function Navbar() {
                 <CheckCircle className="w-4 h-4" /> Claims
               </Link>
 
-              {/* 🔥 AI Link */}
-              <Link to="/ai" className="hover:text-blue-500 flex items-center gap-2 transition-colors">
-                <Sparkles className="w-4 h-4" /> AI Assistant
-              </Link>
-
+              
               {user.role === "admin" && (
                 <Link to="/admin" className="text-amber-600 dark:text-amber-400 font-semibold hover:opacity-80">
                   Admin Panel
@@ -2325,7 +2251,8 @@ export default function Navbar() {
   );
 }
 
-===== FILE: frontend/src/components/CreateClaim.jsx =====
+
+==================== frontend/./src/components/CreateClaim.jsx ====================
 import { useState } from "react";
 import axios from "@/lib/api";
 import { Button } from "@/components/ui/button";
@@ -2355,7 +2282,8 @@ export default function CreateClaim({ policyId }) {
 }
 
 
-===== FILE: frontend/src/components/ProtectedRoute.jsx =====
+
+==================== frontend/./src/components/ProtectedRoute.jsx ====================
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -2370,7 +2298,8 @@ export default function ProtectedRoute({ children }) {
 }
 
 
-===== FILE: frontend/src/components/ThemeToggle.jsx =====
+
+==================== frontend/./src/components/ThemeToggle.jsx ====================
 import { motion } from "framer-motion";
 import { Sun, Moon } from "lucide-react";
 import { useThemeStore } from "@/stores/themeStore";
@@ -2425,7 +2354,8 @@ export default function ThemeToggle() {
 }
 
 
-===== FILE: frontend/src/components/AdminRoute.jsx =====
+
+==================== frontend/./src/components/AdminRoute.jsx ====================
 import { Navigate } from "react-router-dom";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -2440,7 +2370,227 @@ export default function AdminRoute({ children }) {
 }
 
 
-===== FILE: frontend/src/components/ui/card.jsx =====
+
+==================== frontend/./src/components/chat/PlanCardMini.jsx ====================
+import { useNavigate } from "react-router-dom";
+
+export default function PlanCardMini({ plan }) {
+  const navigate = useNavigate();
+
+  return (
+    <div className="p-3 rounded-xl border border-[rgb(var(--border))] bg-[rgb(var(--card))] shadow-sm">
+      
+      <h3 className="font-semibold text-sm mb-1">
+        {plan.title || "Insurance Plan"}
+      </h3>
+
+      <p className="text-xs text-[rgb(var(--muted-foreground))]">
+        Price: ₹{plan.price || "N/A"}
+      </p>
+
+      <p className="text-xs text-[rgb(var(--muted-foreground))]">
+        Coverage: ₹{plan.coverage || "N/A"}
+      </p>
+
+      <button
+        onClick={() => navigate(plan.action)}
+        className="mt-2 w-full text-xs bg-blue-600 text-white py-1.5 rounded-md hover:bg-blue-700"
+      >
+        View Plan
+      </button>
+    </div>
+  );
+}
+
+
+==================== frontend/./src/components/chat/ChatMessage.jsx ====================
+import PlanCardMini from "./PlanCardMini";
+
+export default function ChatMessage({ data }) {
+  if (!data) return null;
+
+  const { type, content } = data;
+
+  return (
+    <div className="text-left space-y-2">
+      
+      {/* TEXT */}
+      {type === "text" && (
+        <div className="bg-[rgb(var(--card))] px-3 py-2 rounded-xl text-sm">
+          {content}
+        </div>
+      )}
+
+      {/* MULTI (text + cards + image) */}
+      {type === "multi" && (
+        <>
+          {content.text && (
+            <div className="bg-[rgb(var(--card))] px-3 py-2 rounded-xl text-sm">
+              {content.text}
+            </div>
+          )}
+
+          {/* {!content.image && (
+            <div className="w-full h-[180px] bg-gray-200 animate-pulse rounded-xl" />
+          )}
+          {content.image && (
+            <div className="w-full mt-2">
+              <img
+                src={content.image}
+                alt="AI visual"
+                className="w-full h-[180px] object-cover rounded-xl border border-[rgb(var(--border))]"
+              />
+            </div>
+          )} */}
+
+          {content.cards && (
+            <div className="space-y-2">
+              {content.cards.map((card, i) => (
+                <PlanCardMini key={i} plan={card} />
+              ))}
+            </div>
+          )}
+        </>
+      )}
+
+      {/* CARDS ONLY */}
+      {type === "cards" && (
+        <div className="space-y-2">
+          {content.map((card, i) => (
+            <PlanCardMini key={i} plan={card} />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+
+==================== frontend/./src/components/chat/ChatWidget.jsx ====================
+import { useState } from "react";
+import axios from "@/lib/axios";
+import ChatMessage from "./ChatMessage";
+import { MessageCircle, X } from "lucide-react";
+
+export default function ChatWidget() {
+  const [open, setOpen] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [sessionId, setSessionId] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const sendMessage = async () => {
+    if (!input.trim()) return;
+
+    const currentInput = input;   // capture first
+    setInput("");                 // clear immediately
+
+    const userMsg = { role: "user", text: currentInput };
+    setMessages((prev) => [...prev, userMsg]);
+    setLoading(true);
+
+    try {
+      const res = await axios.post("http://localhost:8000/chat", {
+        query: input,
+        session_id: sessionId || undefined,
+      });
+
+      const { session_id, response } = res.data;
+      setSessionId(session_id);
+
+      setMessages((prev) => [
+        ...prev,
+        { role: "ai", data: response },
+      ]);
+    } catch (err) {
+      console.error("Chat error:", err);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "ai",
+          data: {
+            type: "text",
+            content: "Something went wrong. Try again.",
+          },
+        },
+      ]);
+    }
+
+    setInput("");
+    setLoading(false);
+  };
+
+  return (
+    <>
+      {/* Floating Button */}
+      {!open && (
+        <button
+          onClick={() => setOpen(true)}
+          className="fixed bottom-6 right-6 z-50 h-14 w-14 rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 flex items-center justify-center"
+        >
+          <MessageCircle />
+        </button>
+      )}
+
+      {/* Chat Panel */}
+      {open && (
+        <div className="fixed bottom-6 right-6 z-50 w-[50vw] max-w-[800px] h-[80vh] max-h-[700px] glass rounded-2xl border border-[rgb(var(--border))] shadow-2xl flex flex-col overflow-hidden">
+          
+          {/* Header */}
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[rgb(var(--border))] bg-[rgb(var(--card))]">
+            <span className="font-semibold">AI Insurance Advisor</span>
+            <button onClick={() => setOpen(false)}>
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            {messages.map((msg, i) => (
+              <div key={i}>
+                {msg.role === "user" ? (
+                  <div className="text-right">
+                    <span className="inline-block bg-blue-600 text-white px-3 py-2 rounded-xl text-sm">
+                      {msg.text}
+                    </span>
+                  </div>
+                ) : (
+                  <ChatMessage data={msg.data} />
+                )}
+              </div>
+            ))}
+
+            {loading && (
+              <div className="text-sm text-[rgb(var(--muted-foreground))]">
+                Thinking...
+              </div>
+            )}
+          </div>
+
+          {/* Input */}
+          <div className="p-3 border-t border-[rgb(var(--border))] flex gap-2">
+            <input
+              className="flex-1 px-3 py-2 rounded-lg border bg-transparent text-sm"
+              placeholder="Ask about insurance..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            />
+            <button
+              onClick={sendMessage}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700"
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
+
+==================== frontend/./src/components/ui/card.jsx ====================
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -2544,7 +2694,8 @@ export {
 }
 
 
-===== FILE: frontend/src/components/ui/button.jsx =====
+
+==================== frontend/./src/components/ui/button.jsx ====================
 import * as React from "react"
 import { cva } from "class-variance-authority";
 import { Slot } from "radix-ui"
@@ -2607,7 +2758,8 @@ function Button({
 export { Button, buttonVariants }
 
 
-===== FILE: frontend/src/components/ui/input.jsx =====
+
+==================== frontend/./src/components/ui/input.jsx ====================
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
@@ -2634,7 +2786,8 @@ function Input({
 export { Input }
 
 
-===== FILE: frontend/src/lib/utils.js =====
+
+==================== frontend/./src/lib/utils.js ====================
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge"
 
@@ -2643,7 +2796,8 @@ export function cn(...inputs) {
 }
 
 
-===== FILE: frontend/src/lib/axios.js =====
+
+==================== frontend/./src/lib/axios.js ====================
 import axios from "axios";
 import { useAuthStore } from "@/stores/authStore";
 
@@ -2666,7 +2820,8 @@ export default axiosInstance;
 
 
 
-===== FILE: frontend/components.json =====
+
+==================== frontend/./components.json ====================
 {
   "$schema": "https://ui.shadcn.com/schema.json",
   "style": "new-york",
@@ -2692,7 +2847,8 @@ export default axiosInstance;
 }
 
 
-===== FILE: frontend/package.json =====
+
+==================== frontend/./package.json ====================
 {
   "name": "frontend",
   "private": true,
@@ -2735,7 +2891,8 @@ export default axiosInstance;
 }
 
 
-===== FILE: frontend/.gitignore =====
+
+==================== frontend/./.gitignore ====================
 # Logs
 logs
 *.log
@@ -2762,7 +2919,8 @@ dist-ssr
 *.sw?
 
 
-===== FILE: frontend/eslint.config.js =====
+
+==================== frontend/./eslint.config.js ====================
 import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
@@ -2794,7 +2952,8 @@ export default defineConfig([
 ])
 
 
-===== FILE: frontend/Dockerfile =====
+
+==================== frontend/./Dockerfile ====================
 FROM node:20-alpine AS build
 
 WORKDIR /app
@@ -2809,10 +2968,7 @@ COPY --from=build /app/dist /usr/share/nginx/html
 
 EXPOSE 80
 
-
-
-
-===== FILE: frontend/vite.config.js =====
+==================== frontend/./vite.config.js ====================
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
@@ -2830,5 +2986,6 @@ export default defineConfig({
     },
   },
 })
+
 
 

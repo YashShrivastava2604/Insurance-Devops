@@ -31,7 +31,7 @@ function AppLayout() {
 
   return (
     <div
-      key={location.pathname} // 👈 forces visible page changes
+      key={location.pathname} 
       className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--text))] transition-colors duration-300"
     >
       <Navbar />

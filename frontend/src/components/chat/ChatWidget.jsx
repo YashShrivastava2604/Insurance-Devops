@@ -1,7 +1,7 @@
 import { useState } from "react";
-import axios from "@/lib/axios";
 import ChatMessage from "./ChatMessage";
 import { MessageCircle, X } from "lucide-react";
+import axios from "axios";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -21,7 +21,7 @@ export default function ChatWidget() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:8000/chat", {
+      const res = await axios.post("/ai/chat", {
         query: input,
         session_id: sessionId || undefined,
       });
@@ -65,10 +65,10 @@ export default function ChatWidget() {
 
       {/* Chat Panel */}
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-[50vw] max-w-[800px] h-[80vh] max-h-[700px] glass rounded-2xl border border-[rgb(var(--border))] shadow-2xl flex flex-col overflow-hidden">
+        <div className="fixed bottom-6 right-6 z-50 w-[50vw] max-w-[800px] h-[80vh] max-h-[700px] bg-[rgb(var(--card)/0.40)] backdrop-blur-lg rounded-2xl border border-[rgb(var(--border))] shadow-2xl flex flex-col overflow-hidden">
           
           {/* Header */}
-          <div className="flex items-center justify-between px-4 py-3 border-b border-[rgb(var(--border))] bg-[rgb(var(--card))]">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-[rgb(var(--border))]">
             <span className="font-semibold">AI Insurance Advisor</span>
             <button onClick={() => setOpen(false)}>
               <X className="w-5 h-5" />

@@ -2,7 +2,7 @@ import os
 import pickle
 import faiss
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 DATA_PATH = "data/insurance_knowledge.txt"
 VECTOR_PATH = "vectorstore/faiss_index"
@@ -18,14 +18,11 @@ def load_data():
 
 
 def create_embeddings(chunks):
-    model = SentenceTransformer("all-MiniLM-L6-v2")
+    model = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
 
-    # IMPORTANT: force numpy output
-    embeddings = model.encode(chunks, convert_to_numpy=True)
-
-    # Ensure 2D shape
-    if len(embeddings.shape) == 1:
-        embeddings = np.expand_dims(embeddings, axis=0)
+    # fastembed returns a generator, convert to list then stack into a numpy array
+    embeddings_list = list(model.embed(chunks))
+    embeddings = np.vstack(embeddings_list)
 
     return embeddings.astype("float32")
 

@@ -4,16 +4,13 @@ import logging
 # -----------------------------
 # 🔇 SILENCE NOISY LIBRARIES (PUT AT VERY TOP)
 # -----------------------------
-logging.getLogger("sentence_transformers").setLevel(logging.ERROR)
-logging.getLogger("transformers").setLevel(logging.ERROR)
-logging.getLogger("huggingface_hub").setLevel(logging.ERROR)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 import faiss
 import pickle
 import numpy as np
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 
 # -----------------------------
 # PATHS
@@ -44,9 +41,9 @@ def init_rag():
     if initialized:
         return
 
-    print("[RAG] Initializing...")
+    print("[RAG] Initializing FastEmbed...")
 
-    model = SentenceTransformer("all-MiniLM-L6-v2")
+    model = TextEmbedding("sentence-transformers/all-MiniLM-L6-v2")
     index = faiss.read_index(VECTOR_PATH)
 
     with open(CHUNKS_PATH, "rb") as f:
@@ -89,7 +86,12 @@ def retrieve(query: str, k: int = 3):
         # -----------------------------
         # EMBEDDING
         # -----------------------------
-        query_embedding = model.encode([query]).astype("float32")
+        # fastembed returns a generator, so we convert it to a list
+        query_embedding_generator = model.embed([query])
+        query_embedding = list(query_embedding_generator)[0]
+        
+        # Reshape for FAISS (needs to be 2D: 1 x dimension)
+        query_embedding = np.array([query_embedding]).astype("float32")
 
         # -----------------------------
         # SEARCH
