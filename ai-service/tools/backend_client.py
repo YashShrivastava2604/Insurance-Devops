@@ -8,7 +8,7 @@ async def get_plans(insurance_type: str):
     try:
         async with httpx.AsyncClient() as client:
             response = await client.get(
-                f"{BASE_URL}/buy",
+                f"{BASE_URL}/plans",
                 params={"type": insurance_type}
             )
 

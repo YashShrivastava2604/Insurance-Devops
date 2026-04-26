@@ -62,7 +62,8 @@ async def fetch_and_return_plans(insurance_type: str):
                 plan.get("coverage")
                 or plan.get("sumInsured")
             ),
-            "action": f"/plans/{plan.get('_id')}"
+            # THE FIX: Changed /plans/ to /buy/ to match your React router!
+            "action": f"/buy/{plan.get('_id')}"
         })
 
     return cards_response(cards)
